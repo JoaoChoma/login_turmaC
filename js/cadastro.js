@@ -9,7 +9,16 @@ botao.addEventListener('click', function (){
         usuario: document.getElementById('usuario').value,
         senha: document.getElementById('senha').value
     };
-    listaUsuariosCadastrados.push(objUsuario);
+    let indice = document.getElementById('indice').value;
+
+    if(indice !== ""){
+        //edicao
+        listaUsuariosCadastrados[indice] = objUsuario;
+        document.getElementById('indice').value = "";
+    }else{
+        //criacao
+        listaUsuariosCadastrados.push(objUsuario);
+    }
     const listaJson = JSON.stringify(listaUsuariosCadastrados);
     localStorage.setItem('usuarios', listaJson);
     listar();
@@ -44,6 +53,14 @@ function removerUsuario(index){
         localStorage.setItem("usuarios", listaJson);
         listar();
     }
+}
+
+function editarUsuario(index){
+    const listaUsuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+    let usuarioEditar = listaUsuarios[index];
+    document.getElementById('usuario').value = usuarioEditar.usuario;
+    document.getElementById('senha').value = usuarioEditar.senha; 
+    document.getElementById('indice').value = index;
 }
 
 listar();
